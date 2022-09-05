@@ -1,14 +1,21 @@
 """ from https://github.com/keithito/tacotron """
 from text import cleaners
-from text.symbols import symbols
+from text.symbols import symbols,symbols_zh
 
 
 # Mappings from symbol to numeric ID and vice versa:
-_symbol_to_id = {s: i for i, s in enumerate(symbols)}
-_id_to_symbol = {i: s for i, s in enumerate(symbols)}
+# _symbol_to_id = {s: i for i, s in enumerate(symbols)}
+# _id_to_symbol = {i: s for i, s in enumerate(symbols)}
 
+chinese_mode = True
+if chinese_mode:
+  _symbol_to_id = {s: i for i, s in enumerate(symbols_zh)}
+  _id_to_symbol = {i: s for i, s in enumerate(symbols_zh)}
+else:
+  _symbol_to_id = {s: i for i, s in enumerate(symbols)}
+  _id_to_symbol = {i: s for i, s in enumerate(symbols)}
 
-def text_to_sequence(text, cleaner_names):
+def text_to_sequence(text, cleaner_names, ):
   '''Converts a string of text to a sequence of IDs corresponding to the symbols in the text.
     Args:
       text: string to convert to a sequence
@@ -25,13 +32,16 @@ def text_to_sequence(text, cleaner_names):
   return sequence
 
 
-def cleaned_text_to_sequence(cleaned_text):
+def cleaned_text_to_sequence(cleaned_text, chinese_mode=True):
   '''Converts a string of text to a sequence of IDs corresponding to the symbols in the text.
     Args:
       text: string to convert to a sequence
     Returns:
       List of integers corresponding to the symbols in the text
   '''
+  # if chinese_mode:
+  #   sequence = [_symbol_to_id_zh[symbol] for symbol in cleaned_text]
+  # else:
   sequence = [_symbol_to_id[symbol] for symbol in cleaned_text]
   return sequence
 
